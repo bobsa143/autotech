@@ -144,7 +144,7 @@ export default function Terms() {
             </p>
             <p className="mt-2">
               Email : contact@saidautotech.com<br />
-              Téléphone : +212 XXX-XXXXXX
+              Téléphone : +221 78 482 72 29 (Sénégal) / +212 675 15 48 48 (Maroc)
             </p>
           </section>
 

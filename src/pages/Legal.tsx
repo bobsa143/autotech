@@ -20,7 +20,7 @@ export default function Legal() {
               <p><strong className="text-white">Forme juridique :</strong> Entreprise individuelle</p>
               <p><strong className="text-white">Siège social :</strong> Morocco & Senegal</p>
               <p><strong className="text-white">Email :</strong> contact@saidautotech.com</p>
-              <p><strong className="text-white">Téléphone :</strong> +212 XXX-XXXXXX</p>
+              <p><strong className="text-white">Téléphone :</strong> +221 78 482 72 29 (Sénégal) / +212 675 15 48 48 (Maroc)</p>
               <p><strong className="text-white">Directeur de publication :</strong> [Nom du directeur]</p>
             </div>
           </section>
@@ -153,7 +153,7 @@ export default function Legal() {
             </p>
             <p className="mt-2">
               Par email : contact@saidautotech.com<br />
-              Par téléphone : +212 XXX-XXXXXX<br />
+              Par téléphone : +221 78 482 72 29 (Sénégal) / +212 675 15 48 48 (Maroc)<br />
               Par courrier : Morocco & Senegal
             </p>
           </section>
