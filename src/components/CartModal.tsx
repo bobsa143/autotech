@@ -1,23 +1,36 @@
-import { X, Minus, Plus, Trash2, ShoppingBag } from 'lucide-react';
+import { X, Minus, Plus, Trash2, ShoppingBag, CreditCard, Lock } from 'lucide-react';
 import { useCart } from '../contexts/CartContext';
 import { useState } from 'react';
 import { supabase } from '../lib/supabase';
 
+type CheckoutStep = 'cart' | 'info' | 'payment';
+
 export default function CartModal() {
   const { cart, isCartOpen, closeCart, removeFromCart, updateQuantity, clearCart, getTotalPrice } = useCart();
-  const [isCheckout, setIsCheckout] = useState(false);
+  const [checkoutStep, setCheckoutStep] = useState<CheckoutStep>('cart');
   const [formData, setFormData] = useState({
     customer_name: '',
     customer_email: '',
     customer_phone: '',
     shipping_address: '',
   });
+  const [paymentData, setPaymentData] = useState({
+    cardNumber: '',
+    cardName: '',
+    expiryDate: '',
+    cvv: '',
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
   if (!isCartOpen) return null;
 
-  const handleCheckout = async (e: React.FormEvent) => {
+  const handleInfoSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setCheckoutStep('payment');
+  };
+
+  const handlePaymentSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus('idle');
@@ -27,7 +40,8 @@ export default function CartModal() {
         ...formData,
         items: JSON.stringify(cart),
         total_amount: getTotalPrice(),
-        status: 'pending',
+        status: 'paid',
+        payment_method: 'card',
       };
 
       const { error } = await supabase.from('orders').insert([orderData]);
@@ -41,10 +55,16 @@ export default function CartModal() {
         customer_phone: '',
         shipping_address: '',
       });
+      setPaymentData({
+        cardNumber: '',
+        cardName: '',
+        expiryDate: '',
+        cvv: '',
+      });
 
       setTimeout(() => {
         clearCart();
-        setIsCheckout(false);
+        setCheckoutStep('cart');
         closeCart();
         setSubmitStatus('idle');
       }, 3000);
@@ -56,6 +76,20 @@ export default function CartModal() {
     }
   };
 
+  const formatCardNumber = (value: string) => {
+    const cleaned = value.replace(/\s/g, '');
+    const chunks = cleaned.match(/.{1,4}/g);
+    return chunks ? chunks.join(' ') : cleaned;
+  };
+
+  const formatExpiryDate = (value: string) => {
+    const cleaned = value.replace(/\D/g, '');
+    if (cleaned.length >= 2) {
+      return cleaned.slice(0, 2) + '/' + cleaned.slice(2, 4);
+    }
+    return cleaned;
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={closeCart}></div>
@@ -65,7 +99,9 @@ export default function CartModal() {
           <div className="flex items-center">
             <ShoppingBag className="h-6 w-6 text-blue-500 mr-3" />
             <h2 className="text-2xl font-bold text-white">
-              {isCheckout ? 'Finaliser la Commande' : 'Panier d\'Achat'}
+              {checkoutStep === 'cart' && 'Panier d\'Achat'}
+              {checkoutStep === 'info' && 'Informations de Livraison'}
+              {checkoutStep === 'payment' && 'Paiement Sécurisé'}
             </h2>
           </div>
           <button
@@ -77,7 +113,7 @@ export default function CartModal() {
         </div>
 
         <div className="overflow-y-auto max-h-[calc(90vh-180px)]">
-          {!isCheckout ? (
+          {checkoutStep === 'cart' ? (
             <div className="p-6">
               {cart.length === 0 ? (
                 <div className="text-center py-12">
@@ -131,18 +167,9 @@ export default function CartModal() {
                 </div>
               )}
             </div>
-          ) : (
+          ) : checkoutStep === 'info' ? (
             <div className="p-6">
-              {submitStatus === 'success' ? (
-                <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-8 text-center">
-                  <div className="text-5xl mb-4">✓</div>
-                  <h3 className="text-2xl font-bold text-green-500 mb-2">Commande Confirmée!</h3>
-                  <p className="text-gray-300">
-                    Merci pour votre commande. Nous vous contacterons bientôt pour la confirmation.
-                  </p>
-                </div>
-              ) : (
-                <form onSubmit={handleCheckout} className="space-y-4">
+              <form onSubmit={handleInfoSubmit} className="space-y-4">
                   <div className="bg-white/5 p-4 rounded-xl border border-white/10 mb-6">
                     <h3 className="font-semibold text-white mb-3">Résumé de la Commande</h3>
                     <div className="space-y-2">
@@ -217,10 +244,148 @@ export default function CartModal() {
                     />
                   </div>
 
+                  <div className="flex gap-3 pt-4">
+                    <button
+                      type="button"
+                      onClick={() => setCheckoutStep('cart')}
+                      className="flex-1 px-6 py-3 bg-white/5 text-white font-semibold rounded-lg hover:bg-white/10 transition-colors"
+                    >
+                      Retour
+                    </button>
+                    <button
+                      type="submit"
+                      className="flex-1 px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-colors shadow-lg shadow-blue-500/50"
+                    >
+                      Continuer au Paiement
+                    </button>
+                  </div>
+                </form>
+            </div>
+          ) : (
+            <div className="p-6">
+              {submitStatus === 'success' ? (
+                <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-8 text-center">
+                  <div className="text-5xl mb-4">✓</div>
+                  <h3 className="text-2xl font-bold text-green-500 mb-2">Paiement Réussi!</h3>
+                  <p className="text-gray-300 mb-2">
+                    Merci pour votre achat. Votre commande a été confirmée.
+                  </p>
+                  <p className="text-sm text-gray-400">
+                    Vous recevrez un email de confirmation sous peu.
+                  </p>
+                </div>
+              ) : (
+                <form onSubmit={handlePaymentSubmit} className="space-y-4">
+                  <div className="bg-white/5 p-4 rounded-xl border border-white/10 mb-6">
+                    <h3 className="font-semibold text-white mb-3">Résumé de la Commande</h3>
+                    <div className="space-y-2">
+                      {cart.map((item) => (
+                        <div key={item.id} className="flex justify-between text-sm">
+                          <span className="text-gray-400">
+                            {item.title} x{item.quantity}
+                          </span>
+                          <span className="text-white">{item.price}</span>
+                        </div>
+                      ))}
+                      <div className="border-t border-white/10 pt-2 mt-2">
+                        <div className="flex justify-between font-bold text-lg">
+                          <span className="text-white">Total:</span>
+                          <span className="text-blue-500">{getTotalPrice().toFixed(2)}€</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4 flex items-start gap-3 mb-4">
+                    <Lock className="h-5 w-5 text-blue-500 flex-shrink-0 mt-0.5" />
+                    <div className="text-sm text-gray-300">
+                      <p className="font-semibold text-white mb-1">Paiement 100% Sécurisé</p>
+                      <p>Vos informations sont cryptées et protégées</p>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Numéro de Carte
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        value={paymentData.cardNumber}
+                        onChange={(e) => {
+                          const value = e.target.value.replace(/\s/g, '');
+                          if (value.length <= 16 && /^\d*$/.test(value)) {
+                            setPaymentData({ ...paymentData, cardNumber: formatCardNumber(value) });
+                          }
+                        }}
+                        maxLength={19}
+                        required
+                        className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none transition-colors"
+                        placeholder="1234 5678 9012 3456"
+                      />
+                      <CreditCard className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Nom sur la Carte
+                    </label>
+                    <input
+                      type="text"
+                      value={paymentData.cardName}
+                      onChange={(e) => setPaymentData({ ...paymentData, cardName: e.target.value.toUpperCase() })}
+                      required
+                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none transition-colors uppercase"
+                      placeholder="SAID SAID"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                        Date d'Expiration
+                      </label>
+                      <input
+                        type="text"
+                        value={paymentData.expiryDate}
+                        onChange={(e) => {
+                          const value = e.target.value.replace(/\D/g, '');
+                          if (value.length <= 4) {
+                            setPaymentData({ ...paymentData, expiryDate: formatExpiryDate(value) });
+                          }
+                        }}
+                        maxLength={5}
+                        required
+                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none transition-colors"
+                        placeholder="MM/AA"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                        CVV
+                      </label>
+                      <input
+                        type="text"
+                        value={paymentData.cvv}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (value.length <= 3 && /^\d*$/.test(value)) {
+                            setPaymentData({ ...paymentData, cvv: value });
+                          }
+                        }}
+                        maxLength={3}
+                        required
+                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none transition-colors"
+                        placeholder="123"
+                      />
+                    </div>
+                  </div>
+
                   {submitStatus === 'error' && (
                     <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-4">
                       <p className="text-red-500 text-center">
-                        Une erreur s'est produite. Veuillez réessayer.
+                        Le paiement a échoué. Veuillez vérifier vos informations.
                       </p>
                     </div>
                   )}
@@ -228,7 +393,7 @@ export default function CartModal() {
                   <div className="flex gap-3 pt-4">
                     <button
                       type="button"
-                      onClick={() => setIsCheckout(false)}
+                      onClick={() => setCheckoutStep('info')}
                       className="flex-1 px-6 py-3 bg-white/5 text-white font-semibold rounded-lg hover:bg-white/10 transition-colors"
                     >
                       Retour
@@ -236,9 +401,9 @@ export default function CartModal() {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="flex-1 px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-lg shadow-blue-500/50"
+                      className="flex-1 px-6 py-3 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-lg shadow-green-500/50"
                     >
-                      {isSubmitting ? 'Envoi...' : 'Confirmer la Commande'}
+                      {isSubmitting ? 'Traitement...' : `Payer ${getTotalPrice().toFixed(2)}€`}
                     </button>
                   </div>
                 </form>
@@ -247,7 +412,7 @@ export default function CartModal() {
           )}
         </div>
 
-        {!isCheckout && cart.length > 0 && (
+        {checkoutStep === 'cart' && cart.length > 0 && (
           <div className="border-t border-white/10 p-6 bg-black/50">
             <div className="flex items-center justify-between mb-4">
               <span className="text-lg font-semibold text-white">Total:</span>
@@ -256,7 +421,7 @@ export default function CartModal() {
               </span>
             </div>
             <button
-              onClick={() => setIsCheckout(true)}
+              onClick={() => setCheckoutStep('info')}
               className="w-full px-6 py-4 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-all duration-300 shadow-lg shadow-blue-500/50 hover:scale-105"
             >
               Passer à la Commande
