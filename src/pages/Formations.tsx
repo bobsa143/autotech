@@ -18,7 +18,7 @@ export default function Formations() {
       title: 'Formation Programmation de Clés Automobile',
       duration: '5 jours',
       level: 'Débutant à Avancé',
-      price: '250€',
+      price: '100€',
       description: 'Maîtrisez l\'art de la programmation de clés automobiles avec nos experts.',
       modules: [
         'Introduction à la serrurerie automobile',
