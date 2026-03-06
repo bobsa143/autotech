@@ -6,7 +6,7 @@ export default function Store() {
       id: 1,
       title: 'ECU Programming Software Pack',
       category: 'Software',
-      price: '4500 MAD',
+      price: '250€',
       rating: 5,
       image: 'https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=800',
       description: 'Pack complet de logiciels pour la programmation ECU professionnelle',
