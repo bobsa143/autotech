@@ -40,7 +40,7 @@ export default function Store() {
       id: 3,
       title: 'Key Programming Software Suite',
       category: 'Software',
-      price: '2500 MAD',
+      price: '250€',
       rating: 5,
       image: 'https://images.pexels.com/photos/97077/pexels-photo-97077.jpeg?auto=compress&cs=tinysrgb&w=800',
       description: 'Suite logicielle complète pour la programmation de clés automobiles',
