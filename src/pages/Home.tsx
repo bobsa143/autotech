@@ -33,11 +33,11 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-black">
-      <section className="relative h-screen w-full overflow-hidden">
+      <section className="relative w-full overflow-hidden">
         <img
           src="https://i.ibb.co/S4hnf6kz/Chat-GPT-Image-5-mars-2026-00-56-09.png"
           alt="Said Auto Tech"
-          className="w-full h-full object-cover"
+          className="w-full h-auto object-contain"
         />
       </section>
 
