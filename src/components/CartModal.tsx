@@ -14,7 +14,7 @@ export default function CartModal() {
     customer_phone: '',
     shipping_address: '',
   });
-  const [paymentMethod, setPaymentMethod] = useState<'card' | 'paypal'>('card');
+  const [paymentMethod, setPaymentMethod] = useState<'card' | 'paypal' | 'wave' | 'orange'>('card');
   const [paymentData, setPaymentData] = useState({
     cardNumber: '',
     cardName: '',
@@ -38,91 +38,96 @@ export default function CartModal() {
     setSubmitStatus('idle');
 
     try {
+      const orderId = `ORDER-${Date.now()}-${Math.random().toString(36).substring(7)}`;
+      const orderData = {
+        ...formData,
+        items: JSON.stringify(cart),
+        total_amount: getTotalPrice(),
+      };
+
+      let endpoint = '';
+      let requestBody: any = {};
+
       if (paymentMethod === 'paypal') {
-        const orderData = {
-          ...formData,
-          items: JSON.stringify(cart),
-          total_amount: getTotalPrice(),
+        endpoint = 'process-paypal-payment';
+        requestBody = {
+          amount: getTotalPrice(),
+          currency: 'EUR',
+          orderData,
         };
-
-        const response = await fetch(
-          `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/process-paypal-payment`,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-            },
-            body: JSON.stringify({
-              amount: getTotalPrice(),
-              currency: 'EUR',
-              orderData,
-            }),
-          }
-        );
-
-        const data = await response.json();
-
-        if (data.success && data.paypalUrl) {
-          const { error } = await supabase.from('orders').insert([{
-            ...orderData,
-            status: 'pending',
-            payment_method: paymentMethod,
-          }]);
-
-          if (error) throw error;
-
-          window.location.href = data.paypalUrl;
-          return;
-        } else {
-          throw new Error('Erreur lors de la génération du lien PayPal');
-        }
+      } else if (paymentMethod === 'wave') {
+        endpoint = 'process-wave-payment';
+        requestBody = {
+          orderId,
+          amount: getTotalPrice(),
+          customerPhone: formData.customer_phone,
+          customerEmail: formData.customer_email,
+          customerName: formData.customer_name,
+          items: cart.map(item => ({
+            id: item.id,
+            name: item.title,
+            price: parseFloat(item.price.replace('€', '')),
+            quantity: item.quantity,
+          })),
+        };
+      } else if (paymentMethod === 'orange') {
+        endpoint = 'process-orange-money-payment';
+        requestBody = {
+          orderId,
+          amount: getTotalPrice(),
+          customerPhone: formData.customer_phone,
+          customerEmail: formData.customer_email,
+          customerName: formData.customer_name,
+          items: cart.map(item => ({
+            id: item.id,
+            name: item.title,
+            price: parseFloat(item.price.replace('€', '')),
+            quantity: item.quantity,
+          })),
+        };
       } else {
-        const orderId = `ORDER-${Date.now()}-${Math.random().toString(36).substring(7)}`;
+        endpoint = 'process-payzone-payment';
+        requestBody = {
+          orderId,
+          amount: getTotalPrice(),
+          customerEmail: formData.customer_email,
+          customerName: formData.customer_name,
+          items: cart.map(item => ({
+            id: item.id,
+            name: item.title,
+            price: parseFloat(item.price.replace('€', '')),
+            quantity: item.quantity,
+          })),
+        };
+      }
 
-        const response = await fetch(
-          `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/process-payzone-payment`,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-            },
-            body: JSON.stringify({
-              orderId,
-              amount: getTotalPrice(),
-              customerEmail: formData.customer_email,
-              customerName: formData.customer_name,
-              items: cart.map(item => ({
-                id: item.id,
-                name: item.title,
-                price: parseFloat(item.price.replace('€', '')),
-                quantity: item.quantity,
-              })),
-            }),
-          }
-        );
-
-        const data = await response.json();
-
-        if (data.success && data.paymentUrl) {
-          const orderData = {
-            ...formData,
-            items: JSON.stringify(cart),
-            total_amount: getTotalPrice(),
-            status: 'pending',
-            payment_method: paymentMethod,
-          };
-
-          const { error } = await supabase.from('orders').insert([orderData]);
-
-          if (error) throw error;
-
-          window.location.href = data.paymentUrl;
-          return;
-        } else {
-          throw new Error(data.message || 'Erreur lors du traitement du paiement');
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/${endpoint}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+          },
+          body: JSON.stringify(requestBody),
         }
+      );
+
+      const data = await response.json();
+
+      if (data.success && (data.paypalUrl || data.paymentUrl)) {
+        const { error } = await supabase.from('orders').insert([{
+          ...orderData,
+          status: 'pending',
+          payment_method: paymentMethod,
+        }]);
+
+        if (error) throw error;
+
+        window.location.href = data.paypalUrl || data.paymentUrl;
+        return;
+      } else {
+        throw new Error(data.message || 'Erreur lors du traitement du paiement');
       }
     } catch (error) {
       console.error('Error submitting order:', error);
@@ -405,6 +410,46 @@ export default function CartModal() {
                           </span>
                         </div>
                       </button>
+                      <button
+                        type="button"
+                        onClick={() => setPaymentMethod('wave')}
+                        className={`p-4 rounded-lg border-2 transition-all ${
+                          paymentMethod === 'wave'
+                            ? 'border-blue-500 bg-blue-500/10'
+                            : 'border-white/10 bg-white/5 hover:border-white/20'
+                        }`}
+                      >
+                        <div className="flex flex-col items-center gap-2">
+                          <img
+                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Wave_payment_logo.svg/2560px-Wave_payment_logo.svg.png"
+                            alt="Wave"
+                            className="h-12 w-auto object-contain"
+                          />
+                          <span className={`text-sm font-semibold ${paymentMethod === 'wave' ? 'text-white' : 'text-gray-400'}`}>
+                            Wave
+                          </span>
+                        </div>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setPaymentMethod('orange')}
+                        className={`p-4 rounded-lg border-2 transition-all ${
+                          paymentMethod === 'orange'
+                            ? 'border-blue-500 bg-blue-500/10'
+                            : 'border-white/10 bg-white/5 hover:border-white/20'
+                        }`}
+                      >
+                        <div className="flex flex-col items-center gap-2">
+                          <img
+                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Orange_logo.svg/2560px-Orange_logo.svg.png"
+                            alt="Orange Money"
+                            className="h-12 w-auto object-contain"
+                          />
+                          <span className={`text-sm font-semibold ${paymentMethod === 'orange' ? 'text-white' : 'text-gray-400'}`}>
+                            Orange Money
+                          </span>
+                        </div>
+                      </button>
                     </div>
                   </div>
 
@@ -488,7 +533,7 @@ export default function CartModal() {
                     </div>
                   </div>
                     </>
-                  ) : (
+                  ) : paymentMethod === 'paypal' ? (
                     <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-6 text-center">
                       <img
                         src="https://filecache.mediaroom.com/mr5mr_paypal_fr/177465/pp_h_rgb_logo_tn.jpg"
@@ -500,6 +545,34 @@ export default function CartModal() {
                       </p>
                       <p className="text-sm text-gray-400">
                         Le paiement sera envoyé à notre compte PayPal vérifié.
+                      </p>
+                    </div>
+                  ) : paymentMethod === 'wave' ? (
+                    <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-6 text-center">
+                      <img
+                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Wave_payment_logo.svg/2560px-Wave_payment_logo.svg.png"
+                        alt="Wave"
+                        className="h-16 w-auto object-contain mx-auto mb-4"
+                      />
+                      <p className="text-gray-300 mb-2">
+                        Vous serez redirigé vers Wave pour finaliser votre paiement mobile de manière sécurisée.
+                      </p>
+                      <p className="text-sm text-gray-400">
+                        Paiement mobile money disponible au Sénégal (XOF).
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="bg-orange-500/10 border border-orange-500/30 rounded-lg p-6 text-center">
+                      <img
+                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Orange_logo.svg/2560px-Orange_logo.svg.png"
+                        alt="Orange Money"
+                        className="h-16 w-auto object-contain mx-auto mb-4"
+                      />
+                      <p className="text-gray-300 mb-2">
+                        Vous serez redirigé vers Orange Money pour finaliser votre paiement mobile de manière sécurisée.
+                      </p>
+                      <p className="text-sm text-gray-400">
+                        Paiement mobile money disponible au Sénégal (XOF).
                       </p>
                     </div>
                   )}
