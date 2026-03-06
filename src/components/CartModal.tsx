@@ -323,11 +323,14 @@ export default function CartModal() {
                         }`}
                       >
                         <div className="flex flex-col items-center gap-2">
-                          <CreditCard className={`h-8 w-8 ${paymentMethod === 'card' ? 'text-blue-500' : 'text-gray-400'}`} />
+                          <img
+                            src="https://banque-info.com/wp-content/uploads/2024/04/CB-vs-Visa-et-MasterCard-un-defi-de-notoriete.jpg"
+                            alt="Visa Mastercard"
+                            className="h-12 w-auto object-contain rounded"
+                          />
                           <span className={`text-sm font-semibold ${paymentMethod === 'card' ? 'text-white' : 'text-gray-400'}`}>
                             Carte Bancaire
                           </span>
-                          <span className="text-xs text-gray-500">Visa / Mastercard</span>
                         </div>
                       </button>
                       <button
