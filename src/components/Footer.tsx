@@ -63,10 +63,26 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-blue-500/20 mt-8 pt-8 text-center">
-          <p className="text-gray-400 text-sm">
-            © {new Date().getFullYear()} SAID AUTO TECH. All rights reserved.
-          </p>
+        <div className="border-t border-blue-500/20 mt-8 pt-8">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-gray-400 text-sm">
+              © {new Date().getFullYear()} SAID AUTO TECH. All rights reserved.
+            </p>
+            <div className="flex flex-wrap justify-center gap-4 text-sm">
+              <Link to="/legal" className="text-gray-400 hover:text-blue-500 transition-colors">
+                Légal
+              </Link>
+              <Link to="/privacy" className="text-gray-400 hover:text-blue-500 transition-colors">
+                Politique de confidentialité
+              </Link>
+              <Link to="/terms" className="text-gray-400 hover:text-blue-500 transition-colors">
+                Conditions d'utilisation
+              </Link>
+              <Link to="/mentions" className="text-gray-400 hover:text-blue-500 transition-colors">
+                Mentions légales
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </footer>
