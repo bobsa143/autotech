@@ -40,7 +40,7 @@ export default function Formations() {
       title: 'Formation Programmation ECU Avancée',
       duration: '7 jours',
       level: 'Intermédiaire à Avancé',
-      price: '350€',
+      price: '200€',
       description: 'Devenez expert en programmation et réparation d\'ECU automobile.',
       modules: [
         'Fonctionnement des ECU modernes',
