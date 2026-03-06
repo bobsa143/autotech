@@ -441,7 +441,7 @@ export default function CartModal() {
                       >
                         <div className="flex flex-col items-center gap-2">
                           <img
-                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Orange_logo.svg/2560px-Orange_logo.svg.png"
+                            src="https://thumbnail.imgbin.com/1/14/19/orange-money-logo-xCpPGsDv_t.jpg"
                             alt="Orange Money"
                             className="h-12 w-auto object-contain"
                           />
@@ -564,7 +564,7 @@ export default function CartModal() {
                   ) : (
                     <div className="bg-orange-500/10 border border-orange-500/30 rounded-lg p-6 text-center">
                       <img
-                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Orange_logo.svg/2560px-Orange_logo.svg.png"
+                        src="https://thumbnail.imgbin.com/1/14/19/orange-money-logo-xCpPGsDv_t.jpg"
                         alt="Orange Money"
                         className="h-16 w-auto object-contain mx-auto mb-4"
                       />
