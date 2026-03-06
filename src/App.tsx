@@ -11,6 +11,9 @@ import Store from './pages/Store';
 import Gallery from './pages/Gallery';
 import About from './pages/About';
 import Contact from './pages/Contact';
+import Privacy from './pages/Privacy';
+import Terms from './pages/Terms';
+import Legal from './pages/Legal';
 
 function App() {
   return (
@@ -26,6 +29,10 @@ function App() {
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/legal" element={<Legal />} />
+            <Route path="/mentions" element={<Legal />} />
           </Routes>
           <Footer />
           <WhatsAppButton />
