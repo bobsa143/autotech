@@ -34,11 +34,42 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-black">
       <section className="relative w-full overflow-hidden">
-        <img
-          src="https://i.ibb.co/S4hnf6kz/Chat-GPT-Image-5-mars-2026-00-56-09.png"
-          alt="Said Auto Tech"
-          className="w-full h-auto object-contain"
-        />
+        <div className="relative">
+          <img
+            src="https://i.ibb.co/S4hnf6kz/Chat-GPT-Image-5-mars-2026-00-56-09.png"
+            alt="Said Auto Tech"
+            className="w-full h-auto object-contain"
+          />
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="flex flex-wrap gap-4 md:gap-6 justify-center px-4 mt-8 md:mt-0">
+              <Link
+                to="/contact"
+                className="inline-flex items-center justify-center px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-cyan-400 to-blue-500 text-white font-semibold rounded-lg hover:from-cyan-500 hover:to-blue-600 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 group text-sm md:text-base"
+              >
+                Prendre Rendez-vous
+                <ArrowRight className="ml-2 h-4 w-4 md:h-5 md:w-5 group-hover:translate-x-1 transition-transform" />
+              </Link>
+
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-green-400 to-emerald-500 text-white font-semibold rounded-lg hover:from-green-500 hover:to-emerald-600 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 group text-sm md:text-base"
+              >
+                <MessageCircle className="mr-2 h-4 w-4 md:h-5 md:w-5" />
+                Contact WhatsApp
+              </a>
+
+              <Link
+                to="/services"
+                className="inline-flex items-center justify-center px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-gray-800 to-gray-900 text-white font-semibold rounded-lg hover:from-gray-700 hover:to-gray-800 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 border border-white/20 group text-sm md:text-base"
+              >
+                Nos Services
+                <ArrowRight className="ml-2 h-4 w-4 md:h-5 md:w-5 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section className="py-20 bg-gradient-to-b from-black to-gray-900">
