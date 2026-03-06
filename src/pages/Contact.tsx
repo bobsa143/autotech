@@ -152,7 +152,7 @@ export default function Contact() {
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       required
                       className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none transition-colors"
-                      placeholder="+212675154848/+²21784827229"
+                      placeholder="votre telephone"
                     />
                   </div>
                   <div>
