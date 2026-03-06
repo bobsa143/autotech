@@ -23,7 +23,7 @@ export default function Store() {
       id: 2,
       title: 'Automotive Diagnostic Software Pack',
       category: 'Software',
-      price: '3500 MAD',
+      price: '350€',
       rating: 5,
       image: 'https://images.pexels.com/photos/3862132/pexels-photo-3862132.jpeg?auto=compress&cs=tinysrgb&w=800',
       description: 'Logiciel de diagnostic automobile complet pour tous types de véhicules',
