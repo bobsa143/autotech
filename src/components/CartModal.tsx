@@ -343,15 +343,14 @@ export default function CartModal() {
                         }`}
                       >
                         <div className="flex flex-col items-center gap-2">
-                          <div className={`h-8 w-8 flex items-center justify-center rounded ${paymentMethod === 'paypal' ? 'text-blue-500' : 'text-gray-400'}`}>
-                            <svg viewBox="0 0 24 24" fill="currentColor" className="h-8 w-8">
-                              <path d="M20.067 8.478c.492.88.556 2.014.3 3.327-.74 3.806-3.276 5.12-6.514 5.12h-.5a.805.805 0 0 0-.794.68l-.04.22-.63 3.993-.032.17a.804.804 0 0 1-.794.679H7.72a.483.483 0 0 1-.477-.558L7.418 21h1.518l.95-6.02h1.385c4.678 0 7.75-2.203 8.796-6.502zm-2.96-5.09c.762.868.983 2.035.739 3.467-.74 3.805-3.276 5.12-6.515 5.12h-.5a.805.805 0 0 0-.794.68l-.04.22-.63 3.993-.032.17a.804.804 0 0 1-.794.679H5.2a.483.483 0 0 1-.477-.558L6.644 3.192A.805.805 0 0 1 7.437 2.5h4.917c2.003 0 3.396.43 4.156 1.281z"/>
-                            </svg>
-                          </div>
+                          <img
+                            src="https://filecache.mediaroom.com/mr5mr_paypal_fr/177465/pp_h_rgb_logo_tn.jpg"
+                            alt="PayPal"
+                            className="h-12 w-auto object-contain"
+                          />
                           <span className={`text-sm font-semibold ${paymentMethod === 'paypal' ? 'text-white' : 'text-gray-400'}`}>
                             PayPal
                           </span>
-                          <span className="text-xs text-gray-500">Rapide & Sécurisé</span>
                         </div>
                       </button>
                     </div>
