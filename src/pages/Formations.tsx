@@ -18,7 +18,7 @@ export default function Formations() {
       title: 'Formation Programmation de Clés Automobile',
       duration: '5 jours',
       level: 'Débutant à Avancé',
-      price: '2500 MAD',
+      price: '250€',
       description: 'Maîtrisez l\'art de la programmation de clés automobiles avec nos experts.',
       modules: [
         'Introduction à la serrurerie automobile',
@@ -40,7 +40,7 @@ export default function Formations() {
       title: 'Formation Programmation ECU Avancée',
       duration: '7 jours',
       level: 'Intermédiaire à Avancé',
-      price: '3500 MAD',
+      price: '350€',
       description: 'Devenez expert en programmation et réparation d\'ECU automobile.',
       modules: [
         'Fonctionnement des ECU modernes',
@@ -62,7 +62,7 @@ export default function Formations() {
       title: 'Formation Diagnostic Automobile Complet',
       duration: '6 jours',
       level: 'Tous niveaux',
-      price: '3000 MAD',
+      price: '300€',
       description: 'Apprenez le diagnostic automobile professionnel avec les outils modernes.',
       modules: [
         'Introduction aux systèmes OBD',
