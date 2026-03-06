@@ -38,40 +38,81 @@ export default function CartModal() {
     setSubmitStatus('idle');
 
     try {
-      const orderData = {
-        ...formData,
-        items: JSON.stringify(cart),
-        total_amount: getTotalPrice(),
-        status: 'paid',
-        payment_method: paymentMethod,
-      };
+      if (paymentMethod === 'paypal') {
+        const orderData = {
+          ...formData,
+          items: JSON.stringify(cart),
+          total_amount: getTotalPrice(),
+        };
 
-      const { error } = await supabase.from('orders').insert([orderData]);
+        const response = await fetch(
+          `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/process-paypal-payment`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+            },
+            body: JSON.stringify({
+              amount: getTotalPrice(),
+              currency: 'EUR',
+              orderData,
+            }),
+          }
+        );
 
-      if (error) throw error;
+        const data = await response.json();
 
-      setSubmitStatus('success');
-      setFormData({
-        customer_name: '',
-        customer_email: '',
-        customer_phone: '',
-        shipping_address: '',
-      });
-      setPaymentData({
-        cardNumber: '',
-        cardName: '',
-        expiryDate: '',
-        cvv: '',
-      });
-      setPaypalEmail('');
-      setPaymentMethod('card');
+        if (data.success && data.paypalUrl) {
+          const { error } = await supabase.from('orders').insert([{
+            ...orderData,
+            status: 'pending',
+            payment_method: paymentMethod,
+          }]);
 
-      setTimeout(() => {
-        clearCart();
-        setCheckoutStep('cart');
-        closeCart();
-        setSubmitStatus('idle');
-      }, 3000);
+          if (error) throw error;
+
+          window.location.href = data.paypalUrl;
+          return;
+        } else {
+          throw new Error('Erreur lors de la génération du lien PayPal');
+        }
+      } else {
+        const orderData = {
+          ...formData,
+          items: JSON.stringify(cart),
+          total_amount: getTotalPrice(),
+          status: 'paid',
+          payment_method: paymentMethod,
+        };
+
+        const { error } = await supabase.from('orders').insert([orderData]);
+
+        if (error) throw error;
+
+        setSubmitStatus('success');
+        setFormData({
+          customer_name: '',
+          customer_email: '',
+          customer_phone: '',
+          shipping_address: '',
+        });
+        setPaymentData({
+          cardNumber: '',
+          cardName: '',
+          expiryDate: '',
+          cvv: '',
+        });
+        setPaypalEmail('');
+        setPaymentMethod('card');
+
+        setTimeout(() => {
+          clearCart();
+          setCheckoutStep('cart');
+          closeCart();
+          setSubmitStatus('idle');
+        }, 3000);
+      }
     } catch (error) {
       console.error('Error submitting order:', error);
       setSubmitStatus('error');
@@ -437,20 +478,17 @@ export default function CartModal() {
                   </div>
                     </>
                   ) : (
-                    <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
-                        Email PayPal
-                      </label>
-                      <input
-                        type="email"
-                        value={paypalEmail}
-                        onChange={(e) => setPaypalEmail(e.target.value)}
-                        required
-                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none transition-colors"
-                        placeholder="votre@email.com"
+                    <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-6 text-center">
+                      <img
+                        src="https://filecache.mediaroom.com/mr5mr_paypal_fr/177465/pp_h_rgb_logo_tn.jpg"
+                        alt="PayPal"
+                        className="h-16 w-auto object-contain mx-auto mb-4"
                       />
-                      <p className="text-xs text-gray-400 mt-2">
-                        Vous serez redirigé vers PayPal pour finaliser le paiement
+                      <p className="text-gray-300 mb-2">
+                        Vous serez redirigé vers PayPal pour finaliser votre paiement de manière sécurisée.
+                      </p>
+                      <p className="text-sm text-gray-400">
+                        Le paiement sera envoyé à notre compte PayPal vérifié.
                       </p>
                     </div>
                   )}
