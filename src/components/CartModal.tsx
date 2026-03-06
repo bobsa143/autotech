@@ -14,12 +14,14 @@ export default function CartModal() {
     customer_phone: '',
     shipping_address: '',
   });
+  const [paymentMethod, setPaymentMethod] = useState<'card' | 'paypal'>('card');
   const [paymentData, setPaymentData] = useState({
     cardNumber: '',
     cardName: '',
     expiryDate: '',
     cvv: '',
   });
+  const [paypalEmail, setPaypalEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
@@ -41,7 +43,7 @@ export default function CartModal() {
         items: JSON.stringify(cart),
         total_amount: getTotalPrice(),
         status: 'paid',
-        payment_method: 'card',
+        payment_method: paymentMethod,
       };
 
       const { error } = await supabase.from('orders').insert([orderData]);
@@ -61,6 +63,8 @@ export default function CartModal() {
         expiryDate: '',
         cvv: '',
       });
+      setPaypalEmail('');
+      setPaymentMethod('card');
 
       setTimeout(() => {
         clearCart();
@@ -296,7 +300,7 @@ export default function CartModal() {
                     </div>
                   </div>
 
-                  <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4 flex items-start gap-3 mb-4">
+                  <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4 flex items-start gap-3 mb-6">
                     <Lock className="h-5 w-5 text-blue-500 flex-shrink-0 mt-0.5" />
                     <div className="text-sm text-gray-300">
                       <p className="font-semibold text-white mb-1">Paiement 100% Sécurisé</p>
@@ -304,6 +308,54 @@ export default function CartModal() {
                     </div>
                   </div>
 
+                  <div className="mb-6">
+                    <label className="block text-sm font-medium text-gray-300 mb-3">
+                      Méthode de Paiement
+                    </label>
+                    <div className="grid grid-cols-2 gap-3">
+                      <button
+                        type="button"
+                        onClick={() => setPaymentMethod('card')}
+                        className={`p-4 rounded-lg border-2 transition-all ${
+                          paymentMethod === 'card'
+                            ? 'border-blue-500 bg-blue-500/10'
+                            : 'border-white/10 bg-white/5 hover:border-white/20'
+                        }`}
+                      >
+                        <div className="flex flex-col items-center gap-2">
+                          <CreditCard className={`h-8 w-8 ${paymentMethod === 'card' ? 'text-blue-500' : 'text-gray-400'}`} />
+                          <span className={`text-sm font-semibold ${paymentMethod === 'card' ? 'text-white' : 'text-gray-400'}`}>
+                            Carte Bancaire
+                          </span>
+                          <span className="text-xs text-gray-500">Visa / Mastercard</span>
+                        </div>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setPaymentMethod('paypal')}
+                        className={`p-4 rounded-lg border-2 transition-all ${
+                          paymentMethod === 'paypal'
+                            ? 'border-blue-500 bg-blue-500/10'
+                            : 'border-white/10 bg-white/5 hover:border-white/20'
+                        }`}
+                      >
+                        <div className="flex flex-col items-center gap-2">
+                          <div className={`h-8 w-8 flex items-center justify-center rounded ${paymentMethod === 'paypal' ? 'text-blue-500' : 'text-gray-400'}`}>
+                            <svg viewBox="0 0 24 24" fill="currentColor" className="h-8 w-8">
+                              <path d="M20.067 8.478c.492.88.556 2.014.3 3.327-.74 3.806-3.276 5.12-6.514 5.12h-.5a.805.805 0 0 0-.794.68l-.04.22-.63 3.993-.032.17a.804.804 0 0 1-.794.679H7.72a.483.483 0 0 1-.477-.558L7.418 21h1.518l.95-6.02h1.385c4.678 0 7.75-2.203 8.796-6.502zm-2.96-5.09c.762.868.983 2.035.739 3.467-.74 3.805-3.276 5.12-6.515 5.12h-.5a.805.805 0 0 0-.794.68l-.04.22-.63 3.993-.032.17a.804.804 0 0 1-.794.679H5.2a.483.483 0 0 1-.477-.558L6.644 3.192A.805.805 0 0 1 7.437 2.5h4.917c2.003 0 3.396.43 4.156 1.281z"/>
+                            </svg>
+                          </div>
+                          <span className={`text-sm font-semibold ${paymentMethod === 'paypal' ? 'text-white' : 'text-gray-400'}`}>
+                            PayPal
+                          </span>
+                          <span className="text-xs text-gray-500">Rapide & Sécurisé</span>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+
+                  {paymentMethod === 'card' ? (
+                    <>
                   <div>
                     <label className="block text-sm font-medium text-gray-300 mb-2">
                       Numéro de Carte
@@ -381,6 +433,25 @@ export default function CartModal() {
                       />
                     </div>
                   </div>
+                    </>
+                  ) : (
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                        Email PayPal
+                      </label>
+                      <input
+                        type="email"
+                        value={paypalEmail}
+                        onChange={(e) => setPaypalEmail(e.target.value)}
+                        required
+                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none transition-colors"
+                        placeholder="votre@email.com"
+                      />
+                      <p className="text-xs text-gray-400 mt-2">
+                        Vous serez redirigé vers PayPal pour finaliser le paiement
+                      </p>
+                    </div>
+                  )}
 
                   {submitStatus === 'error' && (
                     <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-4">
