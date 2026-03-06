@@ -51,7 +51,7 @@ export default function Contact() {
     {
       icon: Phone,
       title: 'Téléphone',
-      details: ['+212 XXX-XXXXXX', '+221 XXX-XXXXXX'],
+      details: ['+212675154848', '+221784827229'],
       color: 'orange',
     },
     {
@@ -152,7 +152,7 @@ export default function Contact() {
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       required
                       className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none transition-colors"
-                      placeholder="+212 XXX-XXXXXX"
+                      placeholder="+212675154848/+²21784827229"
                     />
                   </div>
                   <div>
@@ -240,7 +240,7 @@ export default function Contact() {
                   Contactez-nous directement sur WhatsApp pour une assistance immédiate
                 </p>
                 <a
-                  href="https://wa.me/212XXXXXXXXX"
+                  href="https://wa.me/+221784827229"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center px-6 py-3 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600 transition-all duration-300 shadow-lg shadow-green-500/50 hover:scale-105 group"
