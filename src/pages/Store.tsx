@@ -270,7 +270,7 @@ export default function Store() {
                       className="flex items-center px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-all duration-300 shadow-lg shadow-blue-500/50 hover:scale-105 group"
                     >
                       <ShoppingCart className="h-5 w-5 mr-2" />
-                      Acheter
+                      Ajouter au Panier
                     </button>
                   </div>
                 </div>
