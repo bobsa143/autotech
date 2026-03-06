@@ -62,7 +62,7 @@ export default function Formations() {
       title: 'Formation Diagnostic Automobile Complet',
       duration: '6 jours',
       level: 'Tous niveaux',
-      price: '300€',
+      price: '150€',
       description: 'Apprenez le diagnostic automobile professionnel avec les outils modernes.',
       modules: [
         'Introduction aux systèmes OBD',
