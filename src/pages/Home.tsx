@@ -16,18 +16,18 @@ export default function Home() {
   const features = [
     {
       icon: Key,
-      title: 'Automotive Locksmith',
-      description: 'Programmation de clés, duplication, réparation de télécommandes et solutions pour clés perdues.',
+      title: 'Auto Locksmith Dakar',
+      description: 'Serrurier automobile professionnel à Dakar : programmation clé voiture, duplication clé intelligente, réparation télécommandes et solutions pour clés perdues toutes marques.',
     },
     {
       icon: Cpu,
-      title: 'ECU Programming',
-      description: 'Clonage ECU, réparation, tuning Stage, et optimisation des performances du moteur.',
+      title: 'Programmation Clé Voiture Dakar',
+      description: 'Programmation et duplication de clés de voiture à Dakar. Service rapide pour clés perdues, clonage de clés, programmation télécommandes et ECU programming.',
     },
     {
       icon: Search,
-      title: 'Vehicle Diagnostic',
-      description: 'Diagnostic OBD complet, lecture de codes d\'erreur, codage de modules et réinitialisation.',
+      title: 'Diagnostic Automobile Dakar',
+      description: 'Diagnostic automobile professionnel à Dakar : diagnostic OBD complet, lecture codes d\'erreur, codage modules, réinitialisation systèmes électroniques et analyse en temps réel.',
     },
   ];
 
@@ -88,11 +88,11 @@ export default function Home() {
           </div>
 
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-              Nos Services Professionnels
-            </h2>
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+              Auto Locksmith Dakar - Programmation Clé Voiture
+            </h1>
             <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-              Solutions complètes pour tous vos besoins automobiles et diagnostics
+              Expert en serrurerie automobile, programmation de clés et diagnostic automobile à Dakar, Sénégal. Service professionnel 24/7.
             </p>
           </div>
 
@@ -135,7 +135,7 @@ export default function Home() {
               Besoin d'une Assistance Professionnelle?
             </h2>
             <p className="text-white/90 text-lg mb-8 max-w-2xl mx-auto">
-              Contactez-nous dès maintenant pour bénéficier de nos services experts en programmation ECU, diagnostic automobile et formation professionnelle.
+              Besoin d'un auto locksmith à Dakar? Programmation clé voiture, diagnostic automobile professionnel et ECU programming. Intervention rapide partout à Dakar.
             </p>
             <Link
               to="/contact"

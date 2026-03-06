@@ -4,29 +4,29 @@ export default function Services() {
   const services = [
     {
       icon: Key,
-      title: 'Automotive Locksmith',
-      description: 'Solutions complètes pour tous vos besoins de serrurerie automobile',
+      title: 'Auto Locksmith Dakar',
+      description: 'Serrurier automobile professionnel à Dakar - Solutions complètes pour tous vos besoins en serrurerie automobile',
       features: [
-        'Duplication de clés de voiture',
-        'Solution pour clés perdues',
-        'Programmation de clés intelligentes',
-        'Réparation de télécommandes',
-        'Déverrouillage de véhicules',
-        'Création de clés sur place',
+        'Programmation clé voiture Dakar toutes marques',
+        'Duplication et clonage de clés automobile',
+        'Solution rapide pour clés perdues à Dakar',
+        'Programmation de clés intelligentes et télécommandes',
+        'Réparation de télécommandes automobile',
+        'Déverrouillage de véhicules sans dommage',
       ],
       color: 'blue',
     },
     {
       icon: Search,
-      title: 'Vehicle Diagnostic',
-      description: 'Diagnostic automobile professionnel avec équipement de pointe',
+      title: 'Diagnostic Automobile Dakar',
+      description: 'Diagnostic automobile professionnel à Dakar avec équipement de pointe et techniciens certifiés',
       features: [
-        'Diagnostic OBD complet',
-        'Lecture de codes d\'erreur',
-        'Codage de modules',
-        'Réinitialisation de systèmes',
-        'Analyse en temps réel',
-        'Rapports détaillés',
+        'Diagnostic OBD complet toutes marques à Dakar',
+        'Lecture et suppression codes d\'erreur',
+        'Codage et programmation de modules électroniques',
+        'Réinitialisation systèmes électroniques',
+        'Analyse en temps réel avec rapports détaillés',
+        'Diagnostic électronique avancé',
       ],
       color: 'orange',
     },
@@ -90,10 +90,10 @@ export default function Services() {
               </span>
             </div>
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
-              Services Professionnels
+              Auto Locksmith & Diagnostic Automobile Dakar
             </h1>
             <p className="text-gray-400 text-lg max-w-3xl mx-auto">
-              Solutions complètes pour tous vos besoins en serrurerie automobile, programmation ECU et diagnostic de véhicules
+              Expert en programmation clé voiture Dakar, diagnostic automobile professionnel et ECU programming. Service rapide et fiable partout à Dakar, Sénégal.
             </p>
           </div>
 
