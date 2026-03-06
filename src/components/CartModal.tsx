@@ -421,7 +421,7 @@ export default function CartModal() {
                       >
                         <div className="flex flex-col items-center gap-2">
                           <img
-                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Wave_payment_logo.svg/2560px-Wave_payment_logo.svg.png"
+                            src="https://www.wave.com/img/nav-logo.png"
                             alt="Wave"
                             className="h-12 w-auto object-contain"
                           />
@@ -550,7 +550,7 @@ export default function CartModal() {
                   ) : paymentMethod === 'wave' ? (
                     <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-6 text-center">
                       <img
-                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Wave_payment_logo.svg/2560px-Wave_payment_logo.svg.png"
+                        src="https://www.wave.com/img/nav-logo.png"
                         alt="Wave"
                         className="h-16 w-auto object-contain mx-auto mb-4"
                       />
