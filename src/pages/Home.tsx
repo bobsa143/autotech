@@ -3,7 +3,7 @@ import { MessageCircle, ArrowRight, Key, Cpu, Search, Wrench, Award, Users } fro
 import Testimonials from '../components/Testimonials';
 
 export default function Home() {
-  const whatsappNumber = '212XXXXXXXXX';
+  const whatsappNumber = '221784827229';
   const message = 'Hello, I would like to book an appointment.';
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 
