@@ -12,7 +12,7 @@ export default function WhatsAppButton() {
       aria-label="Contact on WhatsApp"
     >
       <img
-        src="https://png.pngtree.com/element_our/sm/20180626/sm_5b321c99945a2.png"
+        src="https://blog.logomyway.com/wp-content/uploads/2017/02/whatsapp-icon.jpg"
         alt="WhatsApp"
         className="h-6 w-6"
       />
