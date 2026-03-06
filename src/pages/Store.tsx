@@ -1,4 +1,4 @@
-import { Package, ShoppingCart, Download, CheckCircle, Star, Laptop } from 'lucide-react';
+import { Package, ShoppingCart, Download, CheckCircle, Star, Laptop, FileText, BookOpen } from 'lucide-react';
 
 export default function Store() {
   const products = [
@@ -104,6 +104,91 @@ export default function Store() {
       ],
       popular: true,
     },
+    {
+      id: 7,
+      title: 'Guide Complet ECU - Collection PDF',
+      category: 'Documentation PDF',
+      price: '50€',
+      rating: 5,
+      image: 'https://images.pexels.com/photos/159711/books-bookstore-book-reading-159711.jpeg?auto=compress&cs=tinysrgb&w=800',
+      description: 'Collection complète de guides PDF pour la programmation ECU',
+      features: [
+        'Plus de 500 pages de documentation',
+        'Schémas de câblage détaillés',
+        'Procédures pas à pas',
+        'Mises à jour gratuites',
+        'Téléchargement instantané',
+      ],
+      popular: false,
+    },
+    {
+      id: 8,
+      title: 'Manuels Techniques Automobile - Pack PDF',
+      category: 'Documentation PDF',
+      price: '75€',
+      rating: 5,
+      image: 'https://images.pexels.com/photos/256395/pexels-photo-256395.jpeg?auto=compress&cs=tinysrgb&w=800',
+      description: 'Pack complet de manuels techniques pour toutes marques',
+      features: [
+        'Manuels de réparation complets',
+        'Diagrammes électriques',
+        'Spécifications techniques',
+        'Multi-marques (50+ marques)',
+        'Format PDF recherchable',
+      ],
+      popular: true,
+    },
+    {
+      id: 9,
+      title: 'Schémas Électriques Automobile - Collection',
+      category: 'Documentation PDF',
+      price: '60€',
+      rating: 5,
+      image: 'https://images.pexels.com/photos/5668858/pexels-photo-5668858.jpeg?auto=compress&cs=tinysrgb&w=800',
+      description: 'Base de données complète de schémas électriques automobiles',
+      features: [
+        'Plus de 1000 schémas',
+        'Haute résolution',
+        'Recherche par modèle/année',
+        'Diagrammes de câblage complets',
+        'Codes couleur normalisés',
+      ],
+      popular: false,
+    },
+    {
+      id: 10,
+      title: 'Guide de Diagnostic - Documentation Professionnelle',
+      category: 'Documentation PDF',
+      price: '45€',
+      rating: 5,
+      image: 'https://images.pexels.com/photos/4458420/pexels-photo-4458420.jpeg?auto=compress&cs=tinysrgb&w=800',
+      description: 'Guide complet de diagnostic automobile avec codes d\'erreur',
+      features: [
+        'Base de données codes OBD',
+        'Procédures de diagnostic',
+        'Solutions de dépannage',
+        'Tableaux de valeurs',
+        'Guide d\'interprétation',
+      ],
+      popular: false,
+    },
+    {
+      id: 11,
+      title: 'Pack Complet Documentation Pro',
+      category: 'Documentation PDF',
+      price: '180€',
+      rating: 5,
+      image: 'https://images.pexels.com/photos/3184357/pexels-photo-3184357.jpeg?auto=compress&cs=tinysrgb&w=800',
+      description: 'Pack complet incluant tous les guides, manuels et schémas',
+      features: [
+        'Tous les guides PDF inclus',
+        'Plus de 2000 pages',
+        'Mises à jour à vie',
+        'Support technique inclus',
+        'Économisez 40%',
+      ],
+      popular: true,
+    },
   ];
 
   return (
@@ -117,10 +202,10 @@ export default function Store() {
               </span>
             </div>
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
-              Logiciels & Équipements Pro
+              Logiciels, Documentation & Équipements Pro
             </h1>
             <p className="text-gray-400 text-lg max-w-3xl mx-auto">
-              Découvrez notre sélection de logiciels et équipements professionnels pour l'industrie automobile
+              Découvrez notre sélection de logiciels, guides PDF, manuels techniques et équipements professionnels pour l'industrie automobile
             </p>
           </div>
 
@@ -182,20 +267,26 @@ export default function Store() {
             ))}
           </div>
 
-          <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white/5 p-6 rounded-xl border border-white/10 text-center">
+          <div className="mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="bg-white/5 p-6 rounded-xl border border-white/10 text-center hover:border-blue-500/50 transition-all duration-300">
               <Package className="h-10 w-10 text-blue-500 mx-auto mb-4" />
               <h3 className="text-lg font-semibold text-white mb-2">Livraison Rapide</h3>
               <p className="text-gray-400 text-sm">Livraison en 24-48h partout au Maroc et Sénégal</p>
             </div>
 
-            <div className="bg-white/5 p-6 rounded-xl border border-white/10 text-center">
+            <div className="bg-white/5 p-6 rounded-xl border border-white/10 text-center hover:border-blue-500/50 transition-all duration-300">
               <Download className="h-10 w-10 text-blue-500 mx-auto mb-4" />
               <h3 className="text-lg font-semibold text-white mb-2">Téléchargement Instantané</h3>
-              <p className="text-gray-400 text-sm">Accès immédiat aux logiciels après achat</p>
+              <p className="text-gray-400 text-sm">Accès immédiat aux logiciels et PDF après achat</p>
             </div>
 
-            <div className="bg-white/5 p-6 rounded-xl border border-white/10 text-center">
+            <div className="bg-white/5 p-6 rounded-xl border border-white/10 text-center hover:border-blue-500/50 transition-all duration-300">
+              <FileText className="h-10 w-10 text-blue-500 mx-auto mb-4" />
+              <h3 className="text-lg font-semibold text-white mb-2">Documentation Pro</h3>
+              <p className="text-gray-400 text-sm">Guides, manuels et schémas haute qualité</p>
+            </div>
+
+            <div className="bg-white/5 p-6 rounded-xl border border-white/10 text-center hover:border-blue-500/50 transition-all duration-300">
               <Laptop className="h-10 w-10 text-blue-500 mx-auto mb-4" />
               <h3 className="text-lg font-semibold text-white mb-2">Support Technique</h3>
               <p className="text-gray-400 text-sm">Assistance technique 24/7 pour tous nos produits</p>
