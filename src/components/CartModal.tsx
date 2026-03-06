@@ -78,40 +78,51 @@ export default function CartModal() {
           throw new Error('Erreur lors de la génération du lien PayPal');
         }
       } else {
-        const orderData = {
-          ...formData,
-          items: JSON.stringify(cart),
-          total_amount: getTotalPrice(),
-          status: 'paid',
-          payment_method: paymentMethod,
-        };
+        const orderId = `ORDER-${Date.now()}-${Math.random().toString(36).substring(7)}`;
 
-        const { error } = await supabase.from('orders').insert([orderData]);
+        const response = await fetch(
+          `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/process-payzone-payment`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+            },
+            body: JSON.stringify({
+              orderId,
+              amount: getTotalPrice(),
+              customerEmail: formData.customer_email,
+              customerName: formData.customer_name,
+              items: cart.map(item => ({
+                id: item.id,
+                name: item.title,
+                price: parseFloat(item.price.replace('€', '')),
+                quantity: item.quantity,
+              })),
+            }),
+          }
+        );
 
-        if (error) throw error;
+        const data = await response.json();
 
-        setSubmitStatus('success');
-        setFormData({
-          customer_name: '',
-          customer_email: '',
-          customer_phone: '',
-          shipping_address: '',
-        });
-        setPaymentData({
-          cardNumber: '',
-          cardName: '',
-          expiryDate: '',
-          cvv: '',
-        });
-        setPaypalEmail('');
-        setPaymentMethod('card');
+        if (data.success && data.paymentUrl) {
+          const orderData = {
+            ...formData,
+            items: JSON.stringify(cart),
+            total_amount: getTotalPrice(),
+            status: 'pending',
+            payment_method: paymentMethod,
+          };
 
-        setTimeout(() => {
-          clearCart();
-          setCheckoutStep('cart');
-          closeCart();
-          setSubmitStatus('idle');
-        }, 3000);
+          const { error } = await supabase.from('orders').insert([orderData]);
+
+          if (error) throw error;
+
+          window.location.href = data.paymentUrl;
+          return;
+        } else {
+          throw new Error(data.message || 'Erreur lors du traitement du paiement');
+        }
       }
     } catch (error) {
       console.error('Error submitting order:', error);
