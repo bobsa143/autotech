@@ -1,6 +1,8 @@
-import { Package, ShoppingCart, Download, CheckCircle, Star, Laptop, FileText, BookOpen } from 'lucide-react';
+import { Package, ShoppingCart, Download, CheckCircle, Star, Laptop, FileText } from 'lucide-react';
+import { useCart } from '../contexts/CartContext';
 
 export default function Store() {
+  const { addToCart } = useCart();
   const products = [
     {
       id: 1,
@@ -257,7 +259,16 @@ export default function Store() {
 
                   <div className="flex items-center justify-between">
                     <div className="text-3xl font-bold text-blue-500">{product.price}</div>
-                    <button className="flex items-center px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-all duration-300 shadow-lg shadow-blue-500/50 hover:scale-105 group">
+                    <button
+                      onClick={() => addToCart({
+                        id: product.id,
+                        title: product.title,
+                        price: product.price,
+                        category: product.category,
+                        image: product.image,
+                      })}
+                      className="flex items-center px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-all duration-300 shadow-lg shadow-blue-500/50 hover:scale-105 group"
+                    >
                       <ShoppingCart className="h-5 w-5 mr-2" />
                       Acheter
                     </button>

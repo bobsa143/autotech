@@ -1,10 +1,12 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Wrench } from 'lucide-react';
+import { Menu, X, Wrench, ShoppingCart } from 'lucide-react';
 import { useState } from 'react';
+import { useCart } from '../contexts/CartContext';
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const { getTotalItems, openCart } = useCart();
 
   const navLinks = [
     { path: '/', label: 'Accueil' },
@@ -33,7 +35,7 @@ export default function Navigation() {
             </div>
           </Link>
 
-          <div className="hidden md:flex space-x-1">
+          <div className="hidden md:flex items-center space-x-1">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
@@ -47,14 +49,38 @@ export default function Navigation() {
                 {link.label}
               </Link>
             ))}
+            <button
+              onClick={openCart}
+              className="relative ml-4 p-2 text-white hover:bg-white/10 rounded-lg transition-colors"
+            >
+              <ShoppingCart className="h-6 w-6" />
+              {getTotalItems() > 0 && (
+                <span className="absolute -top-1 -right-1 bg-orange-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                  {getTotalItems()}
+                </span>
+              )}
+            </button>
           </div>
 
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden text-white p-2 hover:bg-white/10 rounded-lg transition-colors"
-          >
-            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
+          <div className="md:hidden flex items-center gap-2">
+            <button
+              onClick={openCart}
+              className="relative p-2 text-white hover:bg-white/10 rounded-lg transition-colors"
+            >
+              <ShoppingCart className="h-6 w-6" />
+              {getTotalItems() > 0 && (
+                <span className="absolute -top-1 -right-1 bg-orange-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                  {getTotalItems()}
+                </span>
+              )}
+            </button>
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="text-white p-2 hover:bg-white/10 rounded-lg transition-colors"
+            >
+              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
+          </div>
         </div>
       </div>
 
