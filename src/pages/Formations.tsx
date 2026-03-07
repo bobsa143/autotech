@@ -81,7 +81,7 @@ export default function Formations() {
     },
   ];
 
-  const handleEnroll = async (e: React.FormEvent, courseName: string) => {
+  const handleEnroll = async (e: React.FormEvent, courseName: string, coursePrice: string) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus('idle');
@@ -95,6 +95,30 @@ export default function Formations() {
       ]);
 
       if (error) throw error;
+
+      const whatsappMessage = `🎓 NOUVELLE INSCRIPTION - Formation\n\n` +
+        `📚 Formation: ${courseName}\n` +
+        `💰 Prix: ${coursePrice}\n\n` +
+        `👤 Nom: ${formData.student_name}\n` +
+        `📧 Email: ${formData.student_email}\n` +
+        `📱 Téléphone: ${formData.student_phone}`;
+
+      const whatsappUrl = `https://wa.me/221784827229?text=${encodeURIComponent(whatsappMessage)}`;
+      window.open(whatsappUrl, '_blank');
+
+      const mailtoSubject = `Inscription Formation - ${courseName}`;
+      const mailtoBody = `Bonjour,\n\n` +
+        `Je souhaite m'inscrire à la formation suivante:\n\n` +
+        `Formation: ${courseName}\n` +
+        `Prix: ${coursePrice}\n\n` +
+        `Mes informations:\n` +
+        `Nom: ${formData.student_name}\n` +
+        `Email: ${formData.student_email}\n` +
+        `Téléphone: ${formData.student_phone}\n\n` +
+        `Cordialement,\n${formData.student_name}`;
+
+      const mailtoUrl = `mailto:contact@saidautotech.com?subject=${encodeURIComponent(mailtoSubject)}&body=${encodeURIComponent(mailtoBody)}`;
+      window.location.href = mailtoUrl;
 
       setSubmitStatus('success');
       setFormData({ student_name: '', student_email: '', student_phone: '' });
@@ -213,7 +237,7 @@ export default function Formations() {
                 {selectedCourse === course.id && (
                   <div className="bg-black/50 border-t border-white/10 p-8">
                     <h4 className="text-xl font-semibold text-white mb-4">Formulaire d'Inscription</h4>
-                    <form onSubmit={(e) => handleEnroll(e, course.title)} className="max-w-2xl">
+                    <form onSubmit={(e) => handleEnroll(e, course.title, course.price)} className="max-w-2xl">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <input
                           type="text"
