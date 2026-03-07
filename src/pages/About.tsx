@@ -127,7 +127,7 @@ export default function About() {
               Découvrez comment SAID AUTO TECH peut vous aider à développer vos compétences et votre activité
             </p>
             <a
-              href="https://wa.me+2217848272"
+              href="https://wa.me/+221784827229"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center px-8 py-4 bg-white text-blue-600 font-semibold rounded-lg hover:bg-gray-100 transition-all duration-300 shadow-lg hover:scale-105"
