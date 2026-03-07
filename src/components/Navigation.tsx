@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Wrench, ShoppingCart } from 'lucide-react';
+import { Menu, X, ShoppingCart } from 'lucide-react';
 import { useState } from 'react';
 import { useCart } from '../contexts/CartContext';
 
@@ -26,7 +26,11 @@ export default function Navigation() {
         <div className="flex justify-between items-center h-20">
           <Link to="/" className="flex items-center space-x-3 group">
             <div className="relative">
-              <Wrench className="h-10 w-10 text-blue-500 transform group-hover:rotate-12 transition-transform duration-300" />
+              <img
+                src="https://i.ibb.co/cc8bDTp3/said.png"
+                alt="SAID AUTO TECH Logo"
+                className="h-12 w-12 object-contain transform group-hover:scale-110 transition-transform duration-300"
+              />
               <div className="absolute inset-0 bg-blue-500 blur-xl opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
             </div>
             <div>

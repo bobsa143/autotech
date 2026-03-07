@@ -7,7 +7,14 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <h3 className="text-white text-xl font-bold mb-4">SAID AUTO TECH</h3>
+            <div className="flex items-center space-x-3 mb-4">
+              <img
+                src="https://i.ibb.co/cc8bDTp3/said.png"
+                alt="SAID AUTO TECH Logo"
+                className="h-10 w-10 object-contain"
+              />
+              <h3 className="text-white text-xl font-bold">SAID AUTO TECH</h3>
+            </div>
             <p className="text-gray-400 text-sm mb-4">
               Professional Automotive Locksmith, ECU Programming and Vehicle Diagnostics.
             </p>
