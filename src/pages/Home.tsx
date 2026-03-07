@@ -41,31 +41,31 @@ export default function Home() {
             className="w-full h-auto object-contain"
           />
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="flex flex-wrap gap-4 md:gap-6 justify-center px-4 mt-8 md:mt-0">
+            <div className="flex flex-col md:flex-row gap-4 md:gap-6 justify-center px-4 mt-8 md:mt-0 w-full max-w-4xl mx-auto">
               <Link
                 to="/contact"
-                className="inline-flex items-center justify-center px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-cyan-400 to-blue-500 text-white font-semibold rounded-lg hover:from-cyan-500 hover:to-blue-600 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 group text-sm md:text-base"
+                className="inline-flex items-center justify-center px-8 md:px-10 py-4 md:py-5 bg-gradient-to-r from-cyan-400 to-blue-500 text-white font-bold rounded-xl hover:from-cyan-500 hover:to-blue-600 transition-all duration-300 shadow-2xl hover:shadow-cyan-500/50 hover:scale-105 group text-base md:text-lg border-2 border-white/30"
               >
                 Prendre Rendez-vous
-                <ArrowRight className="ml-2 h-4 w-4 md:h-5 md:w-5 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="ml-2 h-5 w-5 md:h-6 md:w-6 group-hover:translate-x-1 transition-transform" />
               </Link>
 
               <a
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-green-400 to-emerald-500 text-white font-semibold rounded-lg hover:from-green-500 hover:to-emerald-600 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 group text-sm md:text-base"
+                className="inline-flex items-center justify-center px-8 md:px-10 py-4 md:py-5 bg-gradient-to-r from-green-400 to-emerald-500 text-white font-bold rounded-xl hover:from-green-500 hover:to-emerald-600 transition-all duration-300 shadow-2xl hover:shadow-green-500/50 hover:scale-105 group text-base md:text-lg border-2 border-white/30"
               >
-                <MessageCircle className="mr-2 h-4 w-4 md:h-5 md:w-5" />
+                <MessageCircle className="mr-2 h-5 w-5 md:h-6 md:w-6" />
                 Contact WhatsApp
               </a>
 
               <Link
                 to="/services"
-                className="inline-flex items-center justify-center px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-gray-800 to-gray-900 text-white font-semibold rounded-lg hover:from-gray-700 hover:to-gray-800 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 border border-white/20 group text-sm md:text-base"
+                className="inline-flex items-center justify-center px-8 md:px-10 py-4 md:py-5 bg-gradient-to-r from-gray-800 to-gray-900 text-white font-bold rounded-xl hover:from-gray-700 hover:to-gray-800 transition-all duration-300 shadow-2xl hover:shadow-gray-500/50 hover:scale-105 border-2 border-white/40 group text-base md:text-lg"
               >
                 Nos Services
-                <ArrowRight className="ml-2 h-4 w-4 md:h-5 md:w-5 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="ml-2 h-5 w-5 md:h-6 md:w-6 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
           </div>
