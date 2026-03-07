@@ -11,7 +11,7 @@ export default function Footer() {
               <img
                 src="https://i.ibb.co/cc8bDTp3/said.png"
                 alt="SAID AUTO TECH Logo"
-                className="h-10 w-10 object-contain"
+                className="h-12 w-12 object-contain"
               />
               <h3 className="text-white text-xl font-bold">SAID AUTO TECH</h3>
             </div>

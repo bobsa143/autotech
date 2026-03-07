@@ -29,12 +29,12 @@ export default function Navigation() {
               <img
                 src="https://i.ibb.co/cc8bDTp3/said.png"
                 alt="SAID AUTO TECH Logo"
-                className="h-12 w-12 object-contain transform group-hover:scale-110 transition-transform duration-300"
+                className="h-14 w-14 object-contain transform group-hover:scale-110 transition-transform duration-300"
               />
-              <div className="absolute inset-0 bg-blue-500 blur-xl opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
+              <div className="absolute inset-0 bg-blue-500 blur-xl opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
             </div>
             <div>
-              <div className="text-2xl font-bold text-white">SAID AUTO TECH</div>
+              <div className="text-xl sm:text-2xl font-bold text-white">SAID AUTO TECH</div>
               <div className="text-xs text-blue-400">Automotive Excellence</div>
             </div>
           </Link>
